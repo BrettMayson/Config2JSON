@@ -49,7 +49,7 @@ int main(int argc, char** argv)
   std::ofstream output(argv[2]);
   std::cout << "Parsing " << argv[1] << " into " << argv[2] << std::endl;
   std::string str;
-  LAST last;
+  LAST last = CLASS;
   output << "{";
   bool emptyClass = true;
   bool classEnd = false;
