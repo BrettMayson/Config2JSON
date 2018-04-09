@@ -83,10 +83,9 @@ int main(int argc, char** argv)
           std::size_t array = str.find("[]");
           if (array != std::string::npos && array < found) {
             //Array
-            if (last == PROPERTY || last == ARRAY || (last == CLASS && classEnd)) {
+            if (last != CLASS || (last == CLASS && classEnd)) {
               output << ", ";
             }
-            //output << str << std::endl;
             output << "\"" << str.substr(0, array) << "\": [";
             std::string value = str.substr(found + 3, str.size() - found - 5);
             replace(value, "{", "[");
@@ -120,7 +119,7 @@ int main(int argc, char** argv)
             last = ARRAY;
           } else {
             //Property
-            if (last == PROPERTY || last == ARRAY || (last == CLASS && classEnd)) {
+            if (last != CLASS || (last == CLASS && classEnd)) {
               output << ", ";
             }
             std::string value = str.substr(found + 2, str.size() - found - 3);
