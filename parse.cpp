@@ -9,36 +9,36 @@ bool startswith(std::string &source, std::string compare) {
 
 bool endswith(std::string const & value, std::string const & ending)
 {
-    if (ending.size() > value.size()) return false;
-    return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+  if (ending.size() > value.size()) return false;
+  return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
 inline std::string& ltrim(std::string& s, const char* t = " \t\n\r\f\v")
 {
-    s.erase(0, s.find_first_not_of(t));
-    return s;
+  s.erase(0, s.find_first_not_of(t));
+  return s;
 }
 
 inline std::string& rtrim(std::string& s, const char* t = " \t\n\r\f\v")
 {
-    s.erase(s.find_last_not_of(t) + 1);
-    return s;
+  s.erase(s.find_last_not_of(t) + 1);
+  return s;
 }
 
 inline std::string& trim(std::string& s, const char* t = " \t\n\r\f\v")
 {
-    return ltrim(rtrim(s, t), t);
+  return ltrim(rtrim(s, t), t);
 }
 
 void replace(std::string& str, const std::string& from, const std::string& to) {
-    size_t start_pos = 0;
-    do {
-      start_pos = str.find(from, start_pos);
-      if(start_pos == std::string::npos)
-        return;
-      str.replace(start_pos, from.length(), to);
-      start_pos += to.size();
-    } while (start_pos != std::string::npos);
+  size_t start_pos = 0;
+  do {
+    start_pos = str.find(from, start_pos);
+    if(start_pos == std::string::npos)
+      return;
+    str.replace(start_pos, from.length(), to);
+    start_pos += to.size();
+  } while (start_pos != std::string::npos);
 }
 
 enum LAST { CLASS, ARRAY, PROPERTY };
