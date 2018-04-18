@@ -46,8 +46,15 @@ enum LAST { CLASS, ARRAY, PROPERTY };
 int main(int argc, char** argv)
 {
   std::ifstream file(argv[1]);
-  std::ofstream output(argv[2]);
-  std::cout << "Parsing " << argv[1] << " into " << argv[2] << std::endl;
+
+  std::ofstream ofile;
+
+  if (argc == 3) {
+    ofile.open(argv[2], std::ios::out);
+    std::cout << "Parsing " << argv[1] << " into " << argv[2] << std::endl;
+  }
+  std::ostream & output = (argc == 3) ? ofile : std::cout;
+
   std::string str;
   LAST last = CLASS;
   output << "{";
@@ -145,5 +152,6 @@ int main(int argc, char** argv)
     }
   }
   output << "}" << std::endl;
-  output.close();
+  if (argc == 3)
+    ofile.close();
 }
