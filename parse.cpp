@@ -57,15 +57,16 @@ int main(int argc, char** argv)
   {
     trim(str);
     replace(str, "\\", "\\\\");
-    replace(str, "\t","  ");
+    replace(str, "\t","");
+    replace(str, "\n","");
 
     if (!startswith(str, "//") && !startswith(str, "#")) {
       if (startswith(str, "class ")) {
         if (last == PROPERTY || last == ARRAY) {
-          output << ", ";
+          output << ",";
         }
         if (emptyClass && classEnd) {
-          output << ", ";
+          output << ",";
         }
         if (endswith(str, "{};")) {
           //Empty Class
@@ -81,12 +82,12 @@ int main(int argc, char** argv)
         if (found != std::string::npos) {
           emptyClass = false;
           std::size_t array = str.find("[]");
+          if (last != CLASS || (last == CLASS && classEnd)) {
+            output << ",";
+          }
           if (array != std::string::npos && array < found) {
             //Array
-            if (last != CLASS || (last == CLASS && classEnd)) {
-              output << ", ";
-            }
-            output << "\"" << str.substr(0, array) << "\": [";
+            output << "\"" << str.substr(0, array) << "\":[";
             std::string value = str.substr(found + 3, str.size() - found - 5);
             replace(value, "{", "[");
             replace(value, "}", "]");
@@ -119,9 +120,6 @@ int main(int argc, char** argv)
             last = ARRAY;
           } else {
             //Property
-            if (last != CLASS || (last == CLASS && classEnd)) {
-              output << ", ";
-            }
             std::string value = str.substr(found + 2, str.size() - found - 3);
             if (value != "\"\"") {
               if (startswith(value, "\"\"\"")) {
@@ -132,7 +130,7 @@ int main(int argc, char** argv)
                 replace(value, "\"\"", "\\\"\\\"");
               }
             }
-            output << "\"" << str.substr(0, found - 1) << "\": " << value;
+            output << "\"" << str.substr(0, found - 1) << "\":" << value;
             last = PROPERTY;
           }
         } else {
