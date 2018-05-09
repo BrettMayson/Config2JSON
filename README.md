@@ -19,7 +19,12 @@ Config2JSON uses only standard C++ and has been tested with the 2014 C++ Standar
 
 Config2JSON can be built on Linux using
 
-    g++ parse.cpp -o config2json
+    g++ config2json.cxx -o config2json
+
+or
+
+    make
+
 and ran using
 
     ./config2json input.sqm output.json

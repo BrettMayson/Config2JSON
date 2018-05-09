@@ -45,7 +45,7 @@ enum LAST { CLASS, ARRAY, PROPERTY };
 
 int main(int argc, char** argv)
 {
-  std::ifstream file(argv[1]);
+  std::ifstream ifile(argv[1]);
 
   std::ofstream ofile;
 
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
   output << "{";
   bool emptyClass = true;
   bool classEnd = false;
-  while (std::getline(file, str))
+  while (std::getline(ifile, str))
   {
     trim(str);
     replace(str, "\\", "\\\\");
@@ -77,9 +77,17 @@ int main(int argc, char** argv)
         }
         if (endswith(str, "{};")) {
           //Empty Class
-          output << "\"" << str.substr(6, str.size() - 9) << "\": {},";
+          if (endswith( str, " {};")) {
+            output << "\"" << str.substr(6, str.size() - 10) << "\":{},";  
+          } else {
+            output << "\"" << str.substr(6, str.size() - 9) << "\":{},";
+          }
         } else {
-          output << "\"" << str.substr(6, str.size() - 6) << "\":";
+          if (endswith(str, "{")) {
+            output << "\"" << str.substr(6, str.size() - 8) << "\":{";
+          } else {
+            output << "\"" << str.substr(6, str.size() - 6) << "\":";
+          }
         }
         emptyClass = true;
         classEnd = false;
@@ -145,7 +153,7 @@ int main(int argc, char** argv)
             output << "}";
             classEnd = true;
           } else {
-            output << str << std::endl;
+            output << str;
           }
         }
       }
