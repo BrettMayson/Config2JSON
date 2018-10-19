@@ -78,7 +78,7 @@ int main(int argc, char** argv)
         if (endswith(str, "{};")) {
           //Empty Class
           if (endswith( str, " {};")) {
-            output << "\"" << str.substr(6, str.size() - 10) << "\":{},";  
+            output << "\"" << str.substr(6, str.size() - 10) << "\":{},";
           } else {
             output << "\"" << str.substr(6, str.size() - 9) << "\":{},";
           }
