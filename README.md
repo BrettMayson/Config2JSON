@@ -1,5 +1,7 @@
 # Config2JSON
 
+[![CircleCI](https://circleci.com/gh/synixebrett/Config2JSON.svg?style=svg)](https://circleci.com/gh/synixebrett/Config2JSON)
+
 Config2JSON is the fastest and most reliable way to convert mission sqm files, or cpp config files to JSON for use in other programs or websites.
 
 ## Comparision
