@@ -29,9 +29,6 @@ jobs:
           name: "Publish Release"
           command: |
             go get github.com/tcnksm/ghr
-            if (argv[1] == "--version") {
-              std::cout << "0.2" << std::endl;
-              return 0;
             VERSION=$(cat version)
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./releases
 
