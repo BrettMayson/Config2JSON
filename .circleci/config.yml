@@ -9,7 +9,7 @@ jobs:
       - run: cd tests && python3 test.py
   deploy:
     docker:
-      image: circleci/golang:1.8
+      - image: circleci/golang:1.8
     steps:
       - checkout
       - run: mkdir ./releases
