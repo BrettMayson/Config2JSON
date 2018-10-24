@@ -45,6 +45,12 @@ enum LAST { CLASS, ARRAY, PROPERTY };
 
 int main(int argc, char** argv)
 {
+
+  if (argv[1] == "--version") {
+    std::cout << "0.2" << std::endl;
+    return 0;
+  }
+
   std::ifstream ifile(argv[1]);
 
   std::ofstream ofile;

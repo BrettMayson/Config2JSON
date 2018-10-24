@@ -1,9 +1,45 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/python:3.7
     steps:
       - checkout
       - run: make
       - run: cd tests && python3 test.py
+  deploy:
+    docker:
+      image: circleci/golang:1.8
+    steps:
+      - checkout
+      - run: mkdir ./releases
+      - run: sudo apt-get install mingw-w64 zip
+      - run:
+        name: "Create Linux64 Release"
+        command: |
+          make
+          zip releases/linux64.zip parse2hpp parse2json
+      - run:
+        name: "Create Windows32 Release"
+        command: |
+          i686-w64-mingw32-gcc -o parse2hpp.exe parse2hpp.cpp
+          i686-w64-mingw32-gcc -o parse2json.exe parse2json.cpp
+          zip releases/windows32.zip parse2json.exe parse2hpp.exe
+      - run:
+        name: "Publish Release"
+        command: |
+          go get github.com/tcnksm/ghr
+          if (argv[1] == "--version") {
+            std::cout << "0.2" << std::endl;
+            return 0;
+          VERSION=$(cat version)
+          ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./releases
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - test
+      - deploy:
+        requires:
+          - test

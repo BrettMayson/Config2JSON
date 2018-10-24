@@ -5,6 +5,12 @@
 enum STATE {Empty, KeyWaiting, KeyLoading, ValueWaiting, ValueLoading, ArrayLoading};
 
 int main(int argc, char** argv) {
+
+  if (argv[1] == "--version") {
+    std::cout << "0.2" << std::endl;
+    return 0;
+  }
+
   std::ifstream file(argv[1]);
 
   std::ofstream ofile;
