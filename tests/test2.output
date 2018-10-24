@@ -1,0 +1,10 @@
+class Top
+{
+  class Smaller
+  {
+    value = "this is a value";
+    number = 1;
+    array[] = {10,20,30};
+  };
+  class Empty{};
+};

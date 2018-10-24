@@ -28,7 +28,6 @@ int main(int argc, char** argv) {
         switch (c) {
           case '{':
             state = KeyWaiting;
-            std::cout << "KeyWaiting" << std::endl;
             break;
         }
         break;
@@ -36,7 +35,6 @@ int main(int argc, char** argv) {
         switch (c) {
           case '"':
             state = KeyLoading;
-            std::cout << "KeyLoading" << std::endl;
             if (bufferK != "") {
               output << std::string(indent, ' ') << "class " << bufferK << "\n" << std::string(indent, ' ') << "{\n";
               bufferK = "";
@@ -44,14 +42,13 @@ int main(int argc, char** argv) {
             }
             break;
           case '}':
-            std::cout << "Empty Class" << std::endl;
             if (bufferK != "") {
               output << std::string(indent, ' ') << "class " << bufferK << "{};\n";
               bufferK = "";
             } else {
               if (indent != 0) {
                 indent -= 2;
-                output << "};";
+                output << std::string(indent, ' ') << "};\n";
               }
             }
         }
@@ -59,7 +56,6 @@ int main(int argc, char** argv) {
       case KeyLoading:
         switch (c) {
           case '"':
-            std::cout << "ValueWaiting - Done Loading key" << std::endl;
             state = ValueWaiting;
             break;
           default:
@@ -71,17 +67,14 @@ int main(int argc, char** argv) {
           case ':':
             break;
           case '{':
-            std::cout << "KeyWaiting" << std::endl;
             state = KeyWaiting;
             break;
           case '[':
-            std::cout << "ArrayLoading" << std::endl;
             state = ArrayLoading;
             bufferK += "[]";
           case ' ':
             break;
           default:
-            std::cout << "ValueLoading" << std::endl;
             state = ValueLoading;
             bufferV += c;
         }
@@ -89,7 +82,6 @@ int main(int argc, char** argv) {
       case ValueLoading:
         switch (c) {
           case '}':
-            std::cout << "END class" << std::endl;
             state = KeyWaiting;
             output << std::string(indent, ' ') << bufferK << " = " << bufferV << ";\n";
             indent -= 2;
@@ -98,7 +90,6 @@ int main(int argc, char** argv) {
             bufferV = "";
             break;
           case ',':
-            std::cout << "NEXT class" << std::endl;
             state = KeyWaiting;
             output << std::string(indent, ' ') << bufferK << " = " << bufferV << ";\n";
             bufferK = "";
@@ -111,7 +102,6 @@ int main(int argc, char** argv) {
       case ArrayLoading:
         switch (c) {
           case '}':
-            std::cout << "END class" << std::endl;
             state = KeyWaiting;
             output << std::string(indent, ' ') << bufferK << " = {" << bufferV << "};\n";
             indent -= 2;
@@ -120,7 +110,6 @@ int main(int argc, char** argv) {
             bufferV = "";
             break;
           case ']':
-            std::cout << "NEXT class" << std::endl;
             state = KeyWaiting;
             output << std::string(indent, ' ') << bufferK << " = {" << bufferV << "};\n";
             bufferK = "";
@@ -134,5 +123,4 @@ int main(int argc, char** argv) {
         break;
     }
   }
-  output << "\n";
 }

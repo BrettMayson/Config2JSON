@@ -78,19 +78,20 @@ int main(int argc, char** argv)
         if (endswith(str, "{};")) {
           //Empty Class
           if (endswith( str, " {};")) {
-            output << "\"" << str.substr(6, str.size() - 10) << "\":{},";
+            output << "\"" << str.substr(6, str.size() - 10) << "\":{}";
           } else {
-            output << "\"" << str.substr(6, str.size() - 9) << "\":{},";
+            output << "\"" << str.substr(6, str.size() - 9) << "\":{}";
           }
+          classEnd = true;
         } else {
           if (endswith(str, "{")) {
             output << "\"" << str.substr(6, str.size() - 8) << "\":{";
           } else {
             output << "\"" << str.substr(6, str.size() - 6) << "\":";
           }
+          classEnd = false;
         }
         emptyClass = true;
-        classEnd = false;
         last = CLASS;
       } else {
         std::size_t found = str.find("=");
