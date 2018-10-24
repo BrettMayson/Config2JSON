@@ -22,8 +22,8 @@ jobs:
       - run:
           name: "Create Windows32 Release"
           command: |
-            i686-w64-mingw32-gcc -o parse2hpp.exe parse2hpp.cpp
-            i686-w64-mingw32-gcc -o parse2json.exe parse2json.cpp
+            i686-w64-mingw32-g++ -o parse2hpp.exe parse2hpp.cpp
+            i686-w64-mingw32-g++ -o parse2json.exe parse2json.cpp
             zip releases/windows32.zip parse2json.exe parse2hpp.exe
       - run:
           name: "Publish Release"
