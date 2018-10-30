@@ -1,1 +1,1 @@
-{"Parent":{"Child":{"FollowedByValues":{"value":"too many values"},"value":"this is a value","Nothing":{},"escaped":"escaped string: \"\"hello\"\"","array":[1, 2, 3, 4]},"SecondChild":{"value":123456789},"Empty":{}}}
+{"Parent":{"Child":{"FollowedByValues":{"value":"too many values"},"value":"this is a value","nospace":true,"Nothing":{},"escaped":"escaped string: \"\"hello\"\"","array":[1, 2, 3, 4],"array2":["hello","world"]},"SecondChild":{"value":123456789},"Empty":{}}}

@@ -110,11 +110,16 @@ int main(int argc, char** argv)
           if (array != std::string::npos && array < found) {
             //Array
             output << "\"" << str.substr(0, array) << "\":[";
-            std::string value = str.substr(found + 3, str.size() - found - 5);
-            replace(value, "{", "[");
-            replace(value, "}", "]");
-
-            {
+            std::size_t end_array = str.find("};");
+            std::string value;
+            if (end_array != std::string::npos) {
+              if (str.find("= {") == std::string::npos) {
+                value = str.substr(found + 2, str.size() - found - 4);
+              } else {
+                value = str.substr(found + 3, str.size() - found - 5);
+              }
+              replace(value, "{", "[");
+              replace(value, "}", "]");
               std::string newvalue = "";
               bool stringOpen = false;
               for (int i = 0; i < value.size(); i++) {
@@ -136,13 +141,55 @@ int main(int argc, char** argv)
                 newvalue += value[i];
               }
               value = newvalue;
+            } else {
+              bool done = false;
+              std::string newvalue = "";
+              while (!done) {
+                std::string next;
+                std::getline(ifile, next);
+                done = next.find("};") != std::string::npos;
+                if (!done) {
+                  std::string value = trim(next);
+                  if (value == "{") {
+                    continue;
+                  }
+                  bool stringOpen = false;
+                  for (int i = 0; i < value.size(); i++) {
+                    if (stringOpen) {
+                      if (value[i] == '"') {
+                        if (value[i + 1] == '"') {
+                          newvalue += "\\\"\\\"";
+                          i++;
+                          continue;
+                        } else {
+                          stringOpen = false;
+                        }
+                      }
+                    } else {
+                      if (value[i] == '"') {
+                        stringOpen = true;
+                      }
+                    }
+                    newvalue += value[i];
+                  }
+                }
+              }
+              value = newvalue;
             }
 
             output << value << "]";
             last = ARRAY;
           } else {
             //Property
-            std::string value = str.substr(found + 2, str.size() - found - 3);
+            std::string value;
+            std::string property;
+            if (str.find(" = ") != std::string::npos) {
+              value = str.substr(found + 2, str.size() - found - 3);
+              property = str.substr(0, found - 1);
+            } else {
+              value = str.substr(found + 1, str.size() - found - 2);
+              property = str.substr(0, found);
+            }
             if (value != "\"\"") {
               if (startswith(value, "\"\"\"")) {
                 value = value.substr(1, value.size() - 1);
@@ -152,7 +199,7 @@ int main(int argc, char** argv)
                 replace(value, "\"\"", "\\\"\\\"");
               }
             }
-            output << "\"" << str.substr(0, found - 1) << "\":" << value;
+            output << "\"" << property << "\":" << value;
             last = PROPERTY;
           }
         } else {
