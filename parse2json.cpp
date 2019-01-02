@@ -91,7 +91,11 @@ int main(int argc, char** argv)
           classEnd = true;
         } else {
           if (endswith(str, "{")) {
-            output << "\"" << str.substr(6, str.size() - 8) << "\":{";
+            if (endswith(str, " {")) {
+              output << "\"" << str.substr(6, str.size() - 8) << "\":{";
+            } else {
+              output << "\"" << str.substr(6, str.size() - 7) << "\":{";
+            }
           } else {
             output << "\"" << str.substr(6, str.size() - 6) << "\":";
           }
@@ -183,12 +187,16 @@ int main(int argc, char** argv)
             //Property
             std::string value;
             std::string property;
-            if (str.find(" = ") != std::string::npos) {
+            std::size_t eqpos = str.find(" = ");
+            if (eqpos + 1 == found) {
               value = str.substr(found + 2, str.size() - found - 3);
               property = str.substr(0, found - 1);
             } else {
               value = str.substr(found + 1, str.size() - found - 2);
               property = str.substr(0, found);
+            }
+            while (value.find("\" \\\\n \"") != std::string::npos) {
+              replace(value, "\" \\\\n \"", "\\n");
             }
             if (value != "\"\"") {
               if (startswith(value, "\"\"\"")) {
