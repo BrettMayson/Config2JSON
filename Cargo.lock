@@ -1,0 +1,23 @@
+[[package]]
+name = "Config2JSON"
+version = "0.1.0"
+dependencies = [
+ "colored 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "colored"
+version = "1.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "lazy_static 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "lazy_static"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[metadata]
+"checksum colored 1.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "6e9a455e156a4271e12fd0246238c380b1e223e3736663c7a18ed8b6362028a9"
+"checksum lazy_static 1.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "bc5729f27f159ddd61f4df6228e827e86643d4d3e7c32183cb30a1c08f604a14"
